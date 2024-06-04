@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "document_scanner", "document_scanner\document_scanner.csproj", "{3B498673-9CF1-4D95-B7FC-29A83248ED77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B498673-9CF1-4D95-B7FC-29A83248ED77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B498673-9CF1-4D95-B7FC-29A83248ED77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B498673-9CF1-4D95-B7FC-29A83248ED77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B498673-9CF1-4D95-B7FC-29A83248ED77}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {335D5FD1-37DC-4A7D-A634-2E736807B7EA}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,110 @@
+import React, { useState, useEffect } from "react";
+import { Button, Box, Snackbar, Alert } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import axios from "../services/api";
+import { getCsrfToken } from "../utils/csrf";
+import "./snackbarStyles.css";
+
+const DocumentUpload = ({ onUploadComplete }) => {
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [error, setError] = useState(null); // State voor foutmelding
+  const [openSnackbar, setOpenSnackbar] = useState(false); // State voor het openen van Snackbar
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setLoading(true);
+    setProgress(0);
+    setError(null); // Reset de foutmelding
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const csrfToken = (await getCsrfToken()).data.token; // Access the token string
+
+      const headers = {
+        "Content-Type": "multipart/form-data",
+        "X-CSRF-TOKEN": csrfToken,
+      };
+
+      const response = await axios.post("/document/upload", formData, {
+        headers: headers,
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round(
+            (progressEvent.loaded / progressEvent.total) * 100
+          );
+          setProgress(progress);
+        },
+      });
+      onUploadComplete(response.data);
+    } catch (err) {
+      console.error("Failed to upload file:", err);
+      setError("Failed to upload file. Please try again."); // Set de foutmelding
+      setOpenSnackbar(true); // Open de Snackbar
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false); // Sluit de Snackbar
+  };
+  const errorMessage = "Er is een fout opgetreden bij het uploaden van het document. Probeer het opnieuw.";
+
+  return (
+    <Box textAlign="center">
+      <input
+        accept="image/*"
+        style={{ display: "none" }}
+        id="raised-button-file"
+        type="file"
+        onChange={handleFileChange}
+      />
+      <label htmlFor="raised-button-file">
+        <Button
+          variant="contained"
+          component="span"
+          startIcon={<CloudUploadIcon />}
+          disabled={loading}
+        >
+          Upload Document
+        </Button>
+      </label>
+      {loading && <p>{progress}% uploaded...</p>}
+<Snackbar
+  open={openSnackbar}
+  autoHideDuration={6000}
+  anchorOrigin={{
+    vertical: "top", // Plaats de Snackbar bovenaan
+    horizontal: "center", // Horizontaal gecentreerd
+  }}
+  onClose={handleCloseSnackbar}
+>
+  <Alert
+    onClose={handleCloseSnackbar}
+    severity="error"
+    variant="filled"
+    sx={{ width: "100%" }}
+    action={
+      <Button
+        color="secondary"
+        size="small"
+        onClick={handleCloseSnackbar}
+        sx={{ color: '#fff', fontWeight: 'bold' }} // Aanpassen van Close knop stijl
+      >
+        Sluiten
+      </Button>
+    }
+  >
+    {errorMessage}
+  </Alert>
+</Snackbar>
+
+    </Box>
+  );
+};
+
+export default DocumentUpload;

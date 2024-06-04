@@ -1,0 +1,18 @@
+/* snackbarStyles.css */
+.snackbar {
+    background-color: #f44336; /* Rode achtergrondkleur */
+    color: white; /* Witte tekstkleur */
+    font-size: 14px; /* Tekstgrootte */
+    padding: 16px 24px; /* Binnenste vulling */
+    border-radius: 4px; /* Randradius */
+    position: fixed; /* Vaste positie */
+    top: 0; /* Plaats de Snackbar bovenaan */
+    left: 50%; /* Gecentreerde positie */
+    transform: translateX(-50%); /* Horizontale centrering */
+    z-index: 9999; /* Z-index om bovenop andere elementen te liggen */
+    width: auto; /* Automatische breedte */
+    max-width: 90%; /* Maximale breedte van 90% van het scherm */
+    text-align: center; /* Tekst gecentreerd uitlijnen */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Schaduw */
+  }
+  
