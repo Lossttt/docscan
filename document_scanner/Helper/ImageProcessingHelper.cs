@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using OpenCvSharp;
 
 namespace document_scanner.Helper
@@ -18,9 +17,12 @@ namespace document_scanner.Helper
                 var documentCenter = GetContourCenter(documentContour);
 
                 var distance = Math.Sqrt(Math.Pow(imageCenter.X - documentCenter.X, 2) +
-                                         Math.Pow(imageCenter.Y - documentCenter.Y, 2));
+                             Math.Pow(imageCenter.Y - documentCenter.Y, 2));
 
-                return distance <= maximumDeviation;
+                var imageDiagonal = Math.Sqrt(Math.Pow(image.Cols, 2) + Math.Pow(image.Rows, 2));
+                var deviationThreshold = maximumDeviation * imageDiagonal / 100;
+
+                return distance <= deviationThreshold;
             }
 
             return false;
@@ -56,6 +58,7 @@ namespace document_scanner.Helper
 
         public static bool IsColorAcceptable(Mat image)
         {
+            // TODO
             // Implement logic to check color based on application requirements
             return true;
         }
@@ -72,11 +75,30 @@ namespace document_scanner.Helper
 
             if (contours.Length > 0)
             {
-                var largestContour = contours.OrderByDescending(c => Cv2.ContourArea(c)).First();
-                return largestContour;
+                // Filter contours based on size and shape to ensure it's a document
+                var documentContours = contours
+                    .Where(c => IsContourLikelyDocument(c))
+                    .OrderByDescending(c => Cv2.ContourArea(c))
+                    .ToArray();
+
+                if (documentContours.Length > 0)
+                {
+                    return documentContours.First();
+                }
             }
 
             return null;
+        }
+
+        private static bool IsContourLikelyDocument(Point[] contour)
+        {
+            var area = Cv2.ContourArea(contour);
+            if (area < 1000) return false; // Arbitrary threshold, adjust based on your needs
+
+            var rect = Cv2.BoundingRect(contour);
+            var aspectRatio = Math.Max(rect.Width / (float)rect.Height, rect.Height / (float)rect.Width);
+
+            return aspectRatio < 2.0; // Assuming document is roughly rectangular
         }
 
         private static Point GetContourCenter(Point[] contour)

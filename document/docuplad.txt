@@ -1,24 +1,24 @@
+// DocumentUpload.js
 import React, { useState } from 'react';
 import { Button, Box } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { uploadDocument } from '../services/documentService'; // Bestand voor het verwerken van API-verzoeken
-import { validateFileType } from '../utils/fileUtils'; // Bestand voor het controleren van bestandstypen
+import axios from '../services/api';
 import { getCsrfToken } from '../utils/csrf';
 import CustomSnackbar from './validation/snackbar';
+
+
 
 const DocumentUpload = ({ onUploadComplete, onUploadStart }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-    if (!validateFileType(file, allowedTypes)) {
-      setErrorMessage('Ongeldig bestandstype ingediend. Probeer het opnieuw met een correct bestandstype');
-      setOpenSnackbar(true);
+    const allowedTypes = ['image/'];
+    if (!allowedTypes.includes(file.type)) {
+      setSnackbarMessage('Ongeldig bestandstype ingediend. Probeer het opnieuw met een correct bestandstype');
       return;
     }
 
@@ -31,9 +31,14 @@ const DocumentUpload = ({ onUploadComplete, onUploadStart }) => {
 
       const csrfToken = (await getCsrfToken()).data.token;
 
-      // Upload het document
-      const response = await uploadDocument(formData, csrfToken);
+      const headers = {
+        'Content-Type': 'multipart/form-data',
+        'X-CSRF-TOKEN': csrfToken,
+      };
 
+      const response = await axios.post('/document/upload', formData, {
+        headers: headers,
+      });
       onUploadComplete(response.data);
     } catch (err) {
       console.error('Failed to upload file:', err);
@@ -66,7 +71,7 @@ const DocumentUpload = ({ onUploadComplete, onUploadStart }) => {
           Upload Document
         </Button>
       </label>
-      <CustomSnackbar open={openSnackbar} message={errorMessage} onClose={() => setOpenSnackbar(false)} />
+      {errorMessage && <CustomSnackbar message={errorMessage} />}
     </Box>
   );
 };

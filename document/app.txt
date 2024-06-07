@@ -24,7 +24,8 @@ const App = () => {
   const [csrfToken, setCsrfToken] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  const [loadingComplete, setLoadingComplete] = useState(false); // State for loading completion
+  const [loadingComplete, setLoadingComplete] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -52,6 +53,7 @@ const App = () => {
     setLoading(true); // Show loading page on upload start
     setShowResult(false); // Hide result page on new upload start
     setLoadingComplete(false); // Reset loadingComplete state on new upload start
+    setErrorMessage(''); // Clear any previous error messages
   };
 
   const handleNewScan = () => {

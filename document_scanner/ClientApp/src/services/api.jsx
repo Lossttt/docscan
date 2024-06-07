@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: 'https://localhost:7154/api',
-});
+console.log(process.env.REACT_APP_API_URL); // Voeg dit toe om te controleren of de URL correct wordt ingelezen
 
-export default instance;
+const api = axios.create(); // Geen baseURL op dit niveau
+
+export const getCsrfTokenUrl = () => `${process.env.REACT_APP_API_URL}/Csrf/token`;
+export const uploadDocumentUrl = () => `${process.env.REACT_APP_API_URL}/document/upload`;
+
+export default api;

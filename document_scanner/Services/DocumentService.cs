@@ -15,7 +15,7 @@ namespace document_scanner.Services
     {
         private const int RequiredBrightness = 150;
         private const double MinimumVisibilityThreshold = 0.8;
-        private const int MaximumDeviation = 50;
+        private const int MaximumDeviation = 100;
 
         public async Task<DocumentAnalysisResult> AnalyzeDocumentAsync(DocumentUploadDto document)
         {
