@@ -16,6 +16,12 @@ namespace document_scanner.Services
         private const int RequiredBrightness = 150;
         private const double MinimumVisibilityThreshold = 0.8;
         private const int MaximumDeviation = 100;
+        private readonly IUploadService _uploadService;
+
+        public DocumentService(IUploadService uploadService)
+        {
+            _uploadService = uploadService;
+        }
 
         public async Task<DocumentAnalysisResult> AnalyzeDocumentAsync(DocumentUploadDto document)
         {
@@ -63,6 +69,11 @@ namespace document_scanner.Services
             if (!colorCheck)
             {
                 result.Checks.Add(new CheckResult { Passed = false, Message = "Please upload an image with acceptable colors." });
+            }
+
+            if (isApproved)
+            {
+                await _uploadService.UploadDocumentAsync(document);
             }
 
             return result;
