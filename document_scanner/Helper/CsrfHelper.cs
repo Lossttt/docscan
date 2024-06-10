@@ -8,7 +8,7 @@ namespace document_scanner.Helpers
         public static string GenerateCsrfToken(IAntiforgery antiforgery, HttpContext httpContext)
         {
             var tokens = antiforgery.GetAndStoreTokens(httpContext);
-            return tokens.RequestToken;
+            return tokens.RequestToken!;
         }
 
         public static bool VerifyCsrfToken(IAntiforgery antiforgery, HttpContext httpContext, string receivedToken)
