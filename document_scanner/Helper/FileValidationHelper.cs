@@ -12,18 +12,22 @@ namespace document_scanner.Helpers
         {
             ".jpg", ".jpeg", ".png"
         };
-
-        private const long MaxFileSize = 10 * 1024 * 1024; // 10 MB
+        private static readonly int maxFileSizeInBytes = 5 * 1024 * 1024; // 5 MB
 
         public static bool IsValidImage(IFormFile file)
         {
-            if (file == null || file.Length == 0)
+            if (file == null || file.Length == 0 || file.Length > maxFileSizeInBytes)
             {
                 return false;
             }
 
-            var extension = Path.GetExtension(file.FileName);
-            return AllowedImageTypes.Contains(extension) && file.Length <= MaxFileSize;
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            if (!AllowedImageTypes.Contains(fileExtension))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
