@@ -16,6 +16,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="OpenCvSharp4" Version="4.9.0.20240103" />
     <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.9.0.20240103" />
   </ItemGroup>
