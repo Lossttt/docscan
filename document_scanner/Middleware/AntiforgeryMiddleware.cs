@@ -19,7 +19,7 @@ namespace document_scanner.Middleware
             if (context.Request.Path == "/" && context.Response.StatusCode == 200)
             {
                 var tokens = antiforgery.GetAndStoreTokens(context);
-                context.Response.Cookies.Append("X-CSRF-TOKEN", tokens.RequestToken, new CookieOptions
+                context.Response.Cookies.Append("X-CSRF-TOKEN", tokens.RequestToken!, new CookieOptions
                 {
                     HttpOnly = true, // Ensure the cookie is HTTP only
                     SameSite = SameSiteMode.Strict, // Set appropriate SameSite policy
