@@ -22,7 +22,7 @@ namespace document_scanner.Helpers
         public static IHtmlContent SanitizeModel<TModel>(IHtmlHelper<TModel> htmlHelper, TModel model)
         {
             var htmlContent = htmlHelper.DisplayForModel(model).ToString();
-            return SanitizeHtml(htmlContent);
+            return SanitizeHtml(htmlContent!);
         }
     }
 }
