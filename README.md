@@ -19,13 +19,13 @@ To install the project, follow these steps:
 
 1. Clone the repository: 
 ```sh
-`git clone https://github.com/Lossttt/docscan`
+git clone https://github.com/Lossttt/docscan
 ```
 
 2. Navigate to the ClientApp directory and install the dependencies: 
 ```sh
-cd document_scanner/ClientApp`
-npm install`
+cd document_scanner/ClientApp
+npm install
 ```
 
 3. In a new terminal, navigate to the document_scanner directory and run the .NET application:
